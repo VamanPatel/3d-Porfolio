@@ -1,0 +1,45 @@
+<div class="relative min-h-screen bg-dark overflow-x-hidden">
+  <!-- Noise Overlay -->
+  <div class="fixed inset-0 noise z-[60]"></div>
+
+  <!-- Background Glows -->
+  <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+  <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+  <app-header></app-header>
+  <app-cursor></app-cursor>
+
+  <main>
+    <app-hero></app-hero>
+    
+    <div id="about" class="py-32 container mx-auto px-6">
+      <div class="max-w-4xl">
+        <h2 class="text-sm font-mono text-primary uppercase tracking-[0.3em] mb-4">About Me</h2>
+        <p class="text-3xl md:text-5xl font-bold leading-tight text-white/90">
+          I am a Senior Frontend Architect with a passion for building 
+          <span class="text-primary italic">cinematic</span> and 
+          <span class="text-secondary">performant</span> web applications. 
+          With over 5 years of experience, I bridge the gap between design and engineering.
+        </p>
+      </div>
+    </div>
+
+    <app-skills></app-skills>
+    <app-experience></app-experience>
+    <app-projects></app-projects>
+    <app-contact></app-contact>
+  </main>
+
+  <footer class="py-12 border-t border-white/5">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+      <p class="text-white/40 text-sm">© 2026 Vaman's Portfolio. Built with Angular 21 & Three.js</p>
+      <div class="flex gap-8">
+        <a href="#" class="text-white/40 hover:text-primary transition-colors">LinkedIn</a>
+        <a href="#" class="text-white/40 hover:text-primary transition-colors">GitHub</a>
+        <a href="#" class="text-white/40 hover:text-primary transition-colors">Twitter</a>
+      </div>
+    </div>
+  </footer>
+
+  <router-outlet></router-outlet>
+</div>
