@@ -9,97 +9,116 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   standalone: true,
   imports: [CommonModule, MatIconModule],
   template: `
-    <section id="skills" class="py-20 md:py-32 bg-white/[0.02]">
+    <section id="skills" class="py-24 md:py-32 relative">
       <div class="container mx-auto px-6">
-        <div class="max-w-4xl mx-auto text-center mb-12 md:mb-20">
-          <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-6">Technical <span class="text-secondary">Arsenal</span></h2>
-          <p class="text-white/60 text-base md:text-lg">Specialized in building high-performance, scalable enterprise applications with modern web technologies.</p>
+        <div class="max-w-3xl mb-16 md:mb-20">
+          <span class="section-label">Expertise</span>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            Technical <span class="text-gradient">arsenal</span>
+          </h2>
+          <p class="text-lg text-white/50">
+            Angular through CI/CD, testing, micro frontends, and AI-assisted development.
+          </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          @for (category of skillCategories; track category.title) {
-            <div class="skill-card glass p-8 rounded-3xl hover:border-secondary/50 transition-all duration-500 group opacity-0 translate-y-10">
-              <div class="w-12 h-12 bg-secondary/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <mat-icon class="text-secondary">{{category.icon}}</mat-icon>
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-[minmax(140px,auto)]">
+          @for (cell of bentoCells; track cell.title) {
+            <div class="skill-cell glass-strong rounded-3xl p-6 md:p-8 opacity-0 translate-y-8 flex flex-col justify-between group hover:border-primary/25 transition-colors duration-500"
+                 [class.md:col-span-3]="cell.span === 3"
+                 [class.md:col-span-2]="cell.span === 2"
+                 [class.md:col-span-4]="cell.span === 4"
+                 [class.md:row-span-2]="cell.tall">
+              <div>
+                <div class="w-11 h-11 rounded-2xl flex items-center justify-center mb-5 transition-transform group-hover:scale-110"
+                     [class]="cell.iconBg">
+                  <mat-icon [class]="cell.iconColor">{{ cell.icon }}</mat-icon>
+                </div>
+                <h3 class="text-xl font-bold mb-2">{{ cell.title }}</h3>
+                <p class="text-sm text-white/45 leading-relaxed">{{ cell.description }}</p>
               </div>
-              <h3 class="text-2xl font-bold mb-6">{{category.title}}</h3>
-              <ul class="space-y-4">
-                @for (skill of category.skills; track skill.name) {
-                  <li>
-                    <div class="flex justify-between mb-2">
-                      <span class="text-sm font-medium">{{skill.name}}</span>
-                      <span class="text-xs text-white/40">{{skill.level}}%</span>
-                    </div>
-                    <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                      <div class="h-full bg-secondary rounded-full transition-all duration-1000 ease-out" 
-                           [style.width.%]="skill.level"></div>
-                    </div>
-                  </li>
+              <div class="flex flex-wrap gap-2 mt-6">
+                @for (tag of cell.tags; track tag) {
+                  <span class="px-3 py-1 text-xs rounded-full border border-white/10 bg-white/[0.03] text-white/60">{{ tag }}</span>
                 }
-              </ul>
+              </div>
             </div>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
-    :host { display: block; }
-  `]
+  styles: [`:host { display: block; }`]
 })
 export class SkillsComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
 
-  skillCategories = [
+  bentoCells = [
     {
-      title: 'Core Architecture',
-      icon: 'architecture',
-      skills: [
-        { name: 'Angular (Latest)', level: 95 },
-        { name: 'TypeScript', level: 90 },
-        { name: 'RxJS / Signals', level: 88 },
-        { name: 'SSR / Universal', level: 85 }
-      ]
+      title: 'Frontend Core',
+      description: 'Angular v14–20, TypeScript, JavaScript, HTML5, SCSS, and responsive enterprise UI patterns.',
+      icon: 'code',
+      iconBg: 'bg-sky-500/15',
+      iconColor: 'text-primary',
+      span: 4,
+      tall: true,
+      tags: ['Angular CLI', 'Lazy Loading', 'DI', 'RWD'],
     },
     {
-      title: 'UI & Design',
+      title: 'State & Architecture',
+      description: 'RxJS reactive flows, component architecture, NgRx, and micro frontend boundaries via Nx (personal projects).',
+      icon: 'hub',
+      iconBg: 'bg-violet-500/15',
+      iconColor: 'text-secondary',
+      span: 2,
+      tall: false,
+      tags: ['RxJS', 'NgRx', 'Nx Monorepo'],
+    },
+    {
+      title: 'UI Libraries',
+      description: 'Production experience with Angular Material and PrimeNG for scalable design systems.',
       icon: 'palette',
-      skills: [
-        { name: 'Tailwind CSS', level: 92 },
-        { name: 'SCSS / CSS4', level: 90 },
-        { name: 'Three.js / GSAP', level: 75 },
-        { name: 'Responsive Design', level: 95 }
-      ]
+      iconBg: 'bg-amber-500/15',
+      iconColor: 'text-amber-300',
+      span: 2,
+      tall: false,
+      tags: ['Angular Material', 'PrimeNG', 'SCSS'],
     },
     {
-      title: 'Tools & DevOps',
-      icon: 'terminal',
-      skills: [
-        { name: 'Git / CI/CD', level: 85 },
-        { name: 'REST / GraphQL', level: 88 },
-        { name: 'Unit Testing', level: 80 },
-        { name: 'Performance Opt.', level: 90 }
-      ]
-    }
+      title: 'Testing',
+      description: 'Jasmine/Karma in professional delivery; Jest and Cypress E2E through self-directed practice.',
+      icon: 'science',
+      iconBg: 'bg-emerald-500/15',
+      iconColor: 'text-emerald-400',
+      span: 2,
+      tall: false,
+      tags: ['Jasmine', 'Karma', 'Jest', 'Cypress'],
+    },
+    {
+      title: 'DevOps & Collaboration',
+      description: 'GitLab CI/CD in production, REST integration, Agile rituals, mentoring, and stakeholder communication.',
+      icon: 'groups',
+      iconBg: 'bg-rose-500/15',
+      iconColor: 'text-accent',
+      span: 2,
+      tall: false,
+      tags: ['GitLab CI/CD', 'REST', 'Agile', 'Mentoring'],
+    },
   ];
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       gsap.registerPlugin(ScrollTrigger);
-      this.initAnimations();
+      gsap.to('.skill-cell', {
+        opacity: 1,
+        y: 0,
+        duration: 0.85,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#skills',
+          start: 'top 72%',
+        },
+      });
     }
-  }
-
-  private initAnimations() {
-    gsap.to('.skill-card', {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      scrollTrigger: {
-        trigger: '#skills',
-        start: 'top 70%',
-      }
-    });
   }
 }

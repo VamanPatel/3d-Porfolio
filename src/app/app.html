@@ -1,28 +1,102 @@
-<div class="relative min-h-screen bg-dark overflow-x-hidden">
-  <!-- Noise Overlay -->
+<div class="relative min-h-screen mesh-bg overflow-x-hidden">
+  <div class="fixed inset-0 grid-lines pointer-events-none z-0"></div>
   <div class="fixed inset-0 noise z-[60]"></div>
-
-  <!-- Background Glows -->
-  <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
-  <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 blur-[120px] rounded-full pointer-events-none"></div>
 
   <app-header></app-header>
   <app-cursor></app-cursor>
 
-  <main>
+  <main class="relative z-10">
     <app-hero></app-hero>
-    
-    <div id="about" class="py-32 container mx-auto px-6">
-      <div class="max-w-4xl">
-        <h2 class="text-sm font-mono text-primary uppercase tracking-[0.3em] mb-4">About Me</h2>
-        <p class="text-3xl md:text-5xl font-bold leading-tight text-white/90">
-          I am a Senior Frontend Architect with a passion for building 
-          <span class="text-primary italic">cinematic</span> and 
-          <span class="text-secondary">performant</span> web applications. 
-          With over 5 years of experience, I bridge the gap between design and engineering.
-        </p>
+
+    <!-- Stats -->
+    <section class="border-y border-white/5 bg-surface/50 backdrop-blur-sm">
+      <div class="container mx-auto px-6 py-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <div class="text-center md:text-left">
+            <p class="text-3xl md:text-4xl font-display font-bold text-gradient">5+</p>
+            <p class="text-sm text-white/45 mt-1">Years in Angular</p>
+          </div>
+          <div class="text-center md:text-left">
+            <p class="text-3xl md:text-4xl font-display font-bold text-gradient">3</p>
+            <p class="text-sm text-white/45 mt-1">Enterprise Domains</p>
+          </div>
+          <div class="text-center md:text-left">
+            <p class="text-3xl md:text-4xl font-display font-bold text-gradient">517+</p>
+            <p class="text-sm text-white/45 mt-1">Days on Truist Platform</p>
+          </div>
+          <div class="text-center md:text-left">
+            <p class="text-3xl md:text-4xl font-display font-bold text-gradient">CI/CD</p>
+            <p class="text-sm text-white/45 mt-1">GitLab in Production</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="overflow-hidden border-b border-white/5 py-5 bg-dark/40">
+      <div class="flex whitespace-nowrap marquee-track">
+        @for (item of marqueeItems; track item) {
+          <span class="mx-8 text-sm font-mono text-white/25 uppercase tracking-widest">{{ item }}</span>
+        }
+        @for (item of marqueeItems; track item + '-dup') {
+          <span class="mx-8 text-sm font-mono text-white/25 uppercase tracking-widest">{{ item }}</span>
+        }
       </div>
     </div>
+
+    <section id="about" class="py-24 md:py-32 container mx-auto px-6">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div class="lg:col-span-5">
+          <span class="section-label">About</span>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] mb-8">
+            Enterprise UI with
+            <span class="text-gradient"> clarity</span>.
+          </h2>
+          <p class="text-lg text-white/55 leading-relaxed mb-8">
+            I'm Vamankumar Patel — a Senior UI Developer with expert-level experience in Angular (v14–20),
+            TypeScript, and component-driven architecture. I build responsive applications for banking,
+            telecom, and healthcare, mentor junior developers, and partner daily with Product Owners and
+            PMs in Agile delivery.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <span class="px-4 py-2 rounded-full text-xs font-mono border border-white/10 bg-white/[0.03]">Angular 14–20</span>
+            <span class="px-4 py-2 rounded-full text-xs font-mono border border-white/10 bg-white/[0.03]">Micro Frontends</span>
+            <span class="px-4 py-2 rounded-full text-xs font-mono border border-white/10 bg-white/[0.03]">AI-Assisted Dev</span>
+          </div>
+        </div>
+        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-4">
+          <div class="about-stat sm:col-span-2 glass-strong rounded-3xl p-8">
+            <p class="text-white/40 text-sm mb-3 font-mono uppercase tracking-widest">Professional summary</p>
+            <p class="text-xl md:text-2xl font-medium leading-snug text-white/90">
+              Go-to senior technical resource on my current project — structured code reviews, pair programming,
+              and stakeholder alignment that keeps sprints on track.
+            </p>
+          </div>
+          <div class="about-stat">
+            <mat-icon class="text-primary mb-3">account_balance</mat-icon>
+            <h3 class="font-bold mb-2">Banking</h3>
+            <p class="text-sm text-white/45">Truist enterprise deposits & teammate portals</p>
+          </div>
+          <div class="about-stat">
+            <mat-icon class="text-secondary mb-3">cell_tower</mat-icon>
+            <h3 class="font-bold mb-2">Telecom</h3>
+            <p class="text-sm text-white/45">Unified UCC dashboards & multi-source data</p>
+          </div>
+          <div class="about-stat">
+            <mat-icon class="text-accent mb-3">health_and_safety</mat-icon>
+            <h3 class="font-bold mb-2">Healthcare</h3>
+            <p class="text-sm text-white/45">Paragon platform — admin & user modules, secure auth</p>
+          </div>
+          <div class="about-stat">
+            <mat-icon class="text-primary mb-3">school</mat-icon>
+            <h3 class="font-bold mb-2">Education</h3>
+            <p class="text-sm text-white/45">B.Tech CSE — SAL College of Engineering, Ahmedabad (2021)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-6 reveal-line mb-4"></div>
 
     <app-skills></app-skills>
     <app-experience></app-experience>
@@ -30,13 +104,27 @@
     <app-contact></app-contact>
   </main>
 
-  <footer class="py-12 border-t border-white/5">
-    <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-      <p class="text-white/40 text-sm">© 2026 Vaman's Portfolio. Built with Angular 21 & Three.js</p>
-      <div class="flex gap-8">
-        <a href="#" class="text-white/40 hover:text-primary transition-colors">LinkedIn</a>
-        <a href="#" class="text-white/40 hover:text-primary transition-colors">GitHub</a>
-        <a href="#" class="text-white/40 hover:text-primary transition-colors">Twitter</a>
+  <footer class="relative z-10 border-t border-white/5 bg-surface/80">
+    <div class="container mx-auto px-6 py-16">
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-12">
+        <div class="flex items-start gap-4">
+          <img src="favicon.svg" alt="VP" width="48" height="48" class="rounded-xl" />
+          <div>
+            <p class="text-2xl font-display font-bold mb-2">Vamankumar Patel</p>
+            <p class="text-white/40 max-w-sm">Senior UI Developer · Pune, India · Open to remote opportunities.</p>
+          </div>
+        </div>
+        <button type="button" (click)="scrollToContact()" class="btn-primary inline-flex items-center gap-2 cursor-pointer">
+          Start a conversation
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/5">
+        <p class="text-white/35 text-sm">© 2026 Vamankumar Patel. Crafted with Angular 21 & Three.js.</p>
+        <div class="flex gap-8">
+          <a href="https://linkedin.com/in/vamanpatel" target="_blank" rel="noopener noreferrer" class="text-white/40 hover:text-primary transition-colors text-sm">LinkedIn</a>
+          <a href="mailto:vamankumar456@gmail.com" class="text-white/40 hover:text-primary transition-colors text-sm">Email</a>
+        </div>
       </div>
     </div>
   </footer>

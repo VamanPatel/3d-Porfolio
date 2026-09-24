@@ -8,99 +8,100 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section id="experience" class="py-20 md:py-32 relative overflow-hidden">
+    <section id="experience" class="py-24 md:py-32 relative overflow-hidden bg-surface/30">
       <div class="container mx-auto px-6">
-        <h2 class="text-3xl sm:text-4xl md:text-6xl font-bold mb-12 md:mb-20 text-center">
-          Professional <span class="text-primary">Journey</span>
-        </h2>
+        <div class="text-center max-w-2xl mx-auto mb-16 md:mb-24">
+          <span class="section-label">Experience</span>
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold">
+            Professional <span class="text-gradient-warm">journey</span>
+          </h2>
+        </div>
 
-        <div class="relative max-w-4xl mx-auto">
-          <!-- Timeline Line -->
-          <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2 hidden md:block"></div>
-
-          @for (exp of experiences; track exp.company) {
-            <div class="experience-item relative mb-24 md:mb-32 opacity-0 translate-y-20">
-              <div class="flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-8 md:mb-0" [class.md:order-1]="exp.id % 2 === 0" [class.md:order-2]="exp.id % 2 !== 0">
-                  <span class="text-primary font-mono text-sm mb-2 block">{{exp.period}}</span>
-                  <h3 class="text-xl md:text-2xl font-bold mb-2">{{exp.role}}</h3>
-                  <h4 class="text-white/60 text-sm md:text-base mb-4">{{exp.company}}</h4>
-                  <p class="text-white/40 text-sm md:text-base leading-relaxed">{{exp.description}}</p>
+        <div class="max-w-4xl mx-auto space-y-6">
+          @for (exp of experiences; track exp.company; let i = $index) {
+            <article class="experience-item glass-strong rounded-3xl p-8 md:p-10 opacity-0 translate-y-12 hover:border-primary/20 transition-colors duration-500">
+              <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-6">
+                <div>
+                  <p class="font-mono text-sm text-primary mb-2">{{ exp.period }}</p>
+                  <h3 class="text-2xl md:text-3xl font-bold mb-1">{{ exp.role }}</h3>
+                  <p class="text-white/50">{{ exp.company }}</p>
+                  <p class="text-sm text-white/35 mt-1">{{ exp.location }}</p>
                 </div>
-                
-                <div class="absolute left-0 md:left-1/2 w-4 h-4 bg-primary rounded-full -translate-x-1/2 z-10 hidden md:block shadow-[0_0_15px_rgba(0,242,255,0.8)]"></div>
-
-                <div class="w-full md:w-1/2 md:pl-12" [class.md:order-2]="exp.id % 2 === 0" [class.md:order-1]="exp.id % 2 !== 0">
-                  <div class="glass p-6 rounded-2xl hover:border-primary/50 transition-colors group">
-                    <h5 class="text-sm font-bold uppercase tracking-widest mb-4 text-white/40 group-hover:text-primary transition-colors">Key Tech</h5>
-                    <div class="flex flex-wrap gap-2">
-                      @for (tech of exp.tech; track tech) {
-                        <span class="px-3 py-1 bg-white/5 rounded-full text-xs border border-white/10">{{tech}}</span>
-                      }
-                    </div>
-                  </div>
-                </div>
+                <span class="shrink-0 w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center font-display font-bold text-white/30">
+                  {{ formatIndex(i) }}
+                </span>
               </div>
-            </div>
+              <ul class="space-y-3 mb-8 text-white/45 leading-relaxed list-none">
+                @for (point of exp.highlights; track point) {
+                  <li class="flex gap-3">
+                    <span class="text-primary mt-1.5 shrink-0">▸</span>
+                    <span>{{ point }}</span>
+                  </li>
+                }
+              </ul>
+              <div class="flex flex-wrap gap-2">
+                @for (tech of exp.tech; track tech) {
+                  <span class="px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] border border-white/10 text-white/60">{{ tech }}</span>
+                }
+              </div>
+            </article>
           }
         </div>
       </div>
     </section>
   `,
-  styles: [`
-    :host { display: block; }
-  `]
+  styles: [`:host { display: block; }`]
 })
 export class ExperienceComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
 
   experiences = [
     {
-      id: 1,
-      period: '2022 - Present',
-      role: 'Senior Angular Developer',
-      company: 'Infosys (Truist Bank USA / Charter Communications)',
-      description: 'Leading frontend architecture for high-scale banking and telecom applications. Focused on performance optimization, SSR implementation, and complex state management using RxJS and Signals.',
-      tech: ['Angular 18+', 'RxJS', 'TypeScript', 'SSR', 'Tailwind CSS', 'Micro-frontends']
+      period: 'Jul 2022 — Present',
+      role: 'Technology Analyst',
+      company: 'Infosys Limited',
+      location: 'Pune, India',
+      highlights: [
+        'Develop and maintain enterprise Angular applications for banking and telecommunications clients using component architecture, RxJS, and reusable UI patterns.',
+        'Use GitLab CI/CD pipelines for automated build and deployment workflows in the current production environment.',
+        'Act as senior-most technical resource — onboarding, mentoring junior developers, and structured code reviews when no dedicated lead is assigned.',
+        'Partner with Product Owners, PMs, and backend teams on REST integration, requirements clarity, and Agile sprint delivery.',
+      ],
+      tech: ['Angular 14–20', 'RxJS', 'TypeScript', 'GitLab CI/CD', 'REST APIs', 'Agile/Scrum'],
     },
     {
-      id: 2,
-      period: '2020 - 2022',
+      period: 'Mar 2021 — Jul 2022',
       role: 'Angular Developer',
-      company: 'Agility Healthcare / Paragon Healthcare',
-      description: 'Developed mission-critical healthcare management systems. Implemented HIPAA-compliant interfaces and optimized data-heavy dashboards for real-time patient monitoring.',
-      tech: ['Angular', 'NgRx', 'REST APIs', 'D3.js', 'SCSS', 'Unit Testing']
+      company: 'MSP IT Concepts Pvt. Limited',
+      location: 'Pune, India',
+      highlights: [
+        'Designed modular, reusable Angular components for healthcare applications, improving usability and long-term maintainability.',
+        'Implemented RxJS-based asynchronous data handling for responsive state management.',
+        'Maintained quality through Jasmine unit testing and on-time delivery against coding standards.',
+      ],
+      tech: ['Angular', 'RxJS', 'Jasmine', 'Healthcare UI', 'SCSS'],
     },
-    {
-      id: 3,
-      period: '2019 - 2020',
-      role: 'Frontend Developer',
-      company: 'Tech Solutions Inc.',
-      description: 'Built responsive web applications for various clients. Focused on UI/UX implementation and cross-browser compatibility.',
-      tech: ['JavaScript', 'HTML5/CSS3', 'Angular', 'Bootstrap']
-    }
   ];
+
+  formatIndex(i: number): string {
+    return String(i + 1).padStart(2, '0');
+  }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       gsap.registerPlugin(ScrollTrigger);
-      this.initAnimations();
-    }
-  }
-
-  private initAnimations() {
-    const items = document.querySelectorAll('.experience-item');
-    items.forEach((item) => {
-      gsap.to(item, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: item,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
+      gsap.utils.toArray<HTMLElement>('.experience-item').forEach((item) => {
+        gsap.to(item, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 88%',
+          },
+        });
       });
-    });
+    }
   }
 }

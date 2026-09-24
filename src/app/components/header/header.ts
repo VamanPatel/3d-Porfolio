@@ -8,63 +8,76 @@ import { ScrollService } from '../../services/scroll';
   standalone: true,
   imports: [CommonModule, MatIconModule],
   template: `
-    <header class="fixed top-0 left-0 w-full z-[1000] transition-all duration-500 border-b" 
-            [style.backgroundColor]="(isScrolled && !isMenuOpen) ? 'rgba(5, 5, 5, 0.95)' : 'transparent'"
-            [ngClass]="{
-              'border-transparent': !isScrolled || isMenuOpen,
-              'border-white/10': isScrolled && !isMenuOpen,
-              'py-8': !isScrolled && !isMenuOpen,
-              'py-4': isScrolled || isMenuOpen,
-              'backdrop-blur-xl': isScrolled && !isMenuOpen,
-              'shadow-2xl': isScrolled && !isMenuOpen
-            }">
-      <div class="container mx-auto px-4 sm:px-6 flex justify-between items-center relative z-[1002]">
-        <a (click)="scrollTo('#top')" (keydown.enter)="scrollTo('#top')" role="link" tabindex="0" class="text-xl sm:text-2xl font-display font-bold tracking-tighter group cursor-pointer">
-          VAMAN<span class="text-primary group-hover:text-accent transition-colors">.</span>
+    <header class="fixed top-0 left-0 w-full z-[1000] transition-all duration-500 px-4 sm:px-6 pt-4 sm:pt-6"
+            [class.pointer-events-none]="isMenuOpen">
+      <div class="max-w-6xl mx-auto flex justify-between items-center pointer-events-auto">
+        <a (click)="scrollTo('#top')" (keydown.enter)="scrollTo('#top')" role="link" tabindex="0"
+           class="flex items-center gap-2.5 group cursor-pointer z-[1003]">
+          <img src="favicon.svg" alt="" width="36" height="36" class="rounded-lg shadow-lg shadow-sky-500/10 group-hover:scale-105 transition-transform" />
+          <span class="text-lg sm:text-xl font-display font-bold tracking-tight hidden sm:inline">
+            Patel<span class="text-gradient">.</span>
+          </span>
         </a>
 
-        <!-- Desktop Nav -->
-        <nav class="hidden md:flex items-center gap-10">
-          <a (click)="scrollTo('#about')" (keydown.enter)="scrollTo('#about')" role="link" tabindex="0" class="text-sm font-medium text-white/60 hover:text-white transition-colors cursor-pointer">About</a>
-          <a (click)="scrollTo('#skills')" (keydown.enter)="scrollTo('#skills')" role="link" tabindex="0" class="text-sm font-medium text-white/60 hover:text-white transition-colors cursor-pointer">Skills</a>
-          <a (click)="scrollTo('#experience')" (keydown.enter)="scrollTo('#experience')" role="link" tabindex="0" class="text-sm font-medium text-white/60 hover:text-white transition-colors cursor-pointer">Experience</a>
-          <a (click)="scrollTo('#projects')" (keydown.enter)="scrollTo('#projects')" role="link" tabindex="0" class="text-sm font-medium text-white/60 hover:text-white transition-colors cursor-pointer">Projects</a>
-          <a (click)="scrollTo('#contact')" (keydown.enter)="scrollTo('#contact')" role="link" tabindex="0" class="px-6 py-2 bg-white text-dark rounded-full text-sm font-bold hover:bg-primary transition-colors cursor-pointer">Hire Me</a>
+        <nav class="hidden md:flex items-center gap-1 glass-strong rounded-full px-2 py-2 shadow-2xl shadow-black/40"
+             [class.opacity-0]="isMenuOpen"
+             [class.-translate-y-4]="isMenuOpen">
+          @for (link of navLinks; track link.target) {
+            <a (click)="scrollTo(link.target)" (keydown.enter)="scrollTo(link.target)" role="link" tabindex="0"
+               class="px-5 py-2.5 rounded-full text-sm font-medium text-white/55 hover:text-white hover:bg-white/5 transition-all cursor-pointer">
+              {{ link.label }}
+            </a>
+          }
+          <a (click)="scrollTo('#contact')" (keydown.enter)="scrollTo('#contact')" role="link" tabindex="0"
+             class="ml-1 px-5 py-2.5 rounded-full text-sm font-semibold btn-primary !py-2.5 !px-5 cursor-pointer">
+            Contact
+          </a>
         </nav>
 
-        <!-- Mobile Menu Button -->
-        <button (click)="toggleMenu()" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors relative z-[1003]">
-          <mat-icon class="text-3xl">{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
+        <button (click)="toggleMenu()" aria-label="Toggle menu"
+                class="md:hidden glass-strong p-3 rounded-full text-white relative z-[1003] cursor-pointer">
+          <mat-icon>{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
         </button>
       </div>
     </header>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="fixed inset-0 w-screen h-screen bg-[#050505] z-[999] md:hidden transition-all duration-500 ease-in-out flex items-center justify-center"
+    <div class="fixed inset-0 z-[999] md:hidden transition-all duration-500 ease-out flex flex-col justify-center items-center mesh-bg"
          [class.opacity-0]="!isMenuOpen"
          [class.pointer-events-none]="!isMenuOpen"
-         [class.translate-y-0]="isMenuOpen"
-         [class.-translate-y-full]="!isMenuOpen">
-      <div class="flex flex-col items-center gap-10 text-4xl font-display">
-        <a (click)="scrollTo('#about'); toggleMenu()" (keydown.enter)="scrollTo('#about'); toggleMenu()" role="link" tabindex="0" class="hover:text-primary transition-all duration-300 cursor-pointer hover:scale-110">About</a>
-        <a (click)="scrollTo('#skills'); toggleMenu()" (keydown.enter)="scrollTo('#skills'); toggleMenu()" role="link" tabindex="0" class="hover:text-primary transition-all duration-300 cursor-pointer hover:scale-110">Skills</a>
-        <a (click)="scrollTo('#experience'); toggleMenu()" (keydown.enter)="scrollTo('#experience'); toggleMenu()" role="link" tabindex="0" class="hover:text-primary transition-all duration-300 cursor-pointer hover:scale-110">Experience</a>
-        <a (click)="scrollTo('#projects'); toggleMenu()" (keydown.enter)="scrollTo('#projects'); toggleMenu()" role="link" tabindex="0" class="hover:text-primary transition-all duration-300 cursor-pointer hover:scale-110">Projects</a>
-        <a (click)="scrollTo('#contact'); toggleMenu()" (keydown.enter)="scrollTo('#contact'); toggleMenu()" role="link" tabindex="0" class="mt-6 px-16 py-6 bg-primary text-dark rounded-full font-bold cursor-pointer hover:scale-105 transition-all shadow-[0_0_30px_rgba(0,242,255,0.3)]">Hire Me</a>
-      </div>
+         [class.scale-95]="!isMenuOpen">
+      <div class="absolute inset-0 noise"></div>
+      <nav class="relative flex flex-col items-center gap-8 text-3xl font-display font-semibold">
+        @for (link of navLinks; track link.target) {
+          <a (click)="scrollTo(link.target); toggleMenu()" (keydown.enter)="scrollTo(link.target); toggleMenu()"
+             role="link" tabindex="0"
+             class="text-white/80 hover:text-gradient transition-all cursor-pointer">
+            {{ link.label }}
+          </a>
+        }
+        <a (click)="scrollTo('#contact'); toggleMenu()" (keydown.enter)="scrollTo('#contact'); toggleMenu()"
+           role="link" tabindex="0"
+           class="mt-4 btn-primary cursor-pointer">
+          Contact
+        </a>
+      </nav>
     </div>
   `,
-  styles: [`
-    :host { display: block; }
-  `]
+  styles: [`:host { display: block; }`]
 })
 export class HeaderComponent {
   private scrollService = inject(ScrollService);
   private cdr = inject(ChangeDetectorRef);
   private platformId = inject(PLATFORM_ID);
-  
+
   isScrolled = false;
   isMenuOpen = false;
+
+  navLinks = [
+    { label: 'About', target: '#about' },
+    { label: 'Skills', target: '#skills' },
+    { label: 'Experience', target: '#experience' },
+    { label: 'Work', target: '#projects' },
+  ];
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -81,11 +94,7 @@ export class HeaderComponent {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-    if (this.isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
     this.cdr.markForCheck();
   }
 
